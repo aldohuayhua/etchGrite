@@ -48,7 +48,7 @@
             font-size: 15px;
             padding: 10px;
             position: absolute;
-            left: 40%;
+            left: 30%;
             top: 5%;
             text-align: center;
         }
@@ -57,7 +57,25 @@
             font-size: 15px;
             padding: 10px;
             position: absolute;
+            left: 40%;
+            top: 5%;
+            /* text-align: center; */
+        }
+
+        #character-3 {
+            font-size: 15px;
+            padding: 10px;
+            position: absolute;
             left: 50%;
+            top: 5%;
+            /* text-align: center; */
+        }
+
+        #character-4 {
+            font-size: 15px;
+            padding: 10px;
+            position: absolute;
+            left: 60%;
             top: 5%;
             /* text-align: center; */
         }
@@ -75,6 +93,32 @@
             top: 38%;
             right: 20%;
         }
+
+        .HeroChosen {
+            position: absolute;
+            bottom: 15%;
+            left: 20%;
+            background-color: gold;
+            color: purple;
+            border-style: solid;
+            border-width: 5px;
+            border-color: orangered;
+            border-radius: 15px;
+            font-weight: bold;
+        }
+
+        .EnemyChosen {
+            position: absolute;
+            bottom: 15%;
+            right: 20%;
+            background-color: gold;
+            color: purple;
+            border-style: solid;
+            border-width: 5px;
+            border-color: orangered;
+            border-radius: 15px;
+            font-weight: bold;
+        }
     </style>
 
 
@@ -82,47 +126,66 @@
     <div class="characterSelection">
         <button id="character-1" class="character" value="11111" imageurl="ryu.gif" hidden><img src="ryuSelection.jpg"
                 alt="ryuSelection"></button>
-        <button id="character-2" class="character" value="22222" imageurl="gyouki.gif" hidden><img src="gyoukiSelection.jpg"
-                alt="gioukiSelection"></button>
+        <button id="character-2" class="character" value="22222" imageurl="gyouki.gif" hidden><img
+                src="gyoukiSelection.jpg" alt="gioukiSelection"></button>
+        <button id="character-3" class="character" value="33333" hidden><img src="chunLiSelectionScreen.jpg"
+                alt="chunLiSelection"></button>
+        <button id="character-4" class="character" value="44444" hidden><img src="kenSelectionScreen.jpg"
+                alt="chunLiSelection"></button>
     </div>
     <!-- <button id="Try-Again">Try Again</button> -->
     <div id="heroPosition"></div>
     <div id="enemyPosition"></div>
-    <button class="isHeroChosen">Confirm This Hero</button>
+    <button class="HeroChosen" hidden>CONFIRM THIS HERO</button>
+    <button class="EnemyChosen" hidden>CONFIRM THIS ENEMY</button>
 
     <script type="text/javascript">
 
         var hero;
         var enemy;
         var isHeroChosen;
+        var isEnemyChosen;
 
 
         $(document).ready(function () {
             var heroOperatorChosen = false;
-            
+            var enemyOperatorChosen = false;
+
             $("#start-game").on("click", function () {
                 $("#start-game").hide();
                 var imageUrl = "CellArena.jpg";
                 $(".body-html").css("background-image", "url(" + imageUrl + ")");
                 $("#character-1").show();
                 $("#character-2").show();
+                $("#character-3").show();
+                $("#character-4").show();
 
             });
 
             $(".character").on("click", function () {
 
-                if(heroOperatorChosen){
+                if (heroOperatorChosen) {
                     enemy = this.value;
                     $('#enemyPosition').html(enemy);
-                }else {
+                    $(".EnemyChosen").show();
+
+                } else {
                     hero = this.value;
                     $('#heroPosition').html(hero);
+                    $(".HeroChosen").show();
                 }
             });
 
-            $(".isHeroChosen").on("click", function () {
+            $(".HeroChosen").on("click", function () {
                 heroOperatorChosen = true;
             });
+
+            $(".EnemyChosen").on("click", function () {
+                // enemyOperatorChosen = true
+                $(".character").hide();
+
+            });
+
 
 
             // will comment this out to try to run character selection like calculator selecting a first number (first character)
