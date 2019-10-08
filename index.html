@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- <link rel="stylesheet" href="/assets/css/reset.css">
+    <link rel="stylesheet" href="/assets/css/style.css"> -->
+    <!-- Added link to the jQuery Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <title>Street Fighter RPG</title>
+</head>
+
+<body class="body-html">
+
+    <audio controls autoplay loop hidden>
+        <source src="assets/music/02. Player Select.mp3" type="audio/mp3">
+    </audio>
+
+    <style>
+        body {
+            background-image: url(Street-Fighter-start-screen.jpg);
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            background-color: black;
+
+        }
+
+        #start-game {
+            font-size: 25px;
+            padding: 10px;
+            position: absolute;
+            left: 45%;
+            top: 70%;
+        }
+    </style>
+
+    <button id="start-game">START</button>
+    <!-- <button id="character-1">Character-1</button>
+    <button id="character-2">character-2</button>
+    <button id="Try-Again">Try Again</button> -->
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#start-game").on("click", function () {
+                $("#start-game").hide();
+                var imageUrl = "CellArena.jpg";
+                $(".body-html").css("background-image", "url(" + imageUrl + ")");
+
+            });
+
+        });
+
+    </script>
+
+</body>
+
+</html>
