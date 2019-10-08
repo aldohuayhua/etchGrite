@@ -20,7 +20,7 @@
 
     <style>
         body {
-            background-image: url(Street-Fighter-start-screen.jpg);
+            background-image: url(Street-Fighter-start-screen2.jpg);
             background-position: center;
             background-repeat: no-repeat;
             background-attachment: fixed;
@@ -31,27 +31,117 @@
 
         #start-game {
             font-size: 25px;
+            font-weight: bold;
             padding: 10px;
             position: absolute;
             left: 45%;
-            top: 70%;
+            top: 75%;
+            background-color: gold;
+            color: purple;
+            border-style: solid;
+            border-width: 5px;
+            border-color: orangered;
+            border-radius: 15px;
+        }
+
+        #character-1 {
+            font-size: 15px;
+            padding: 10px;
+            position: absolute;
+            left: 40%;
+            top: 5%;
+            text-align: center;
+        }
+
+        #character-2 {
+            font-size: 15px;
+            padding: 10px;
+            position: absolute;
+            left: 50%;
+            top: 5%;
+            /* text-align: center; */
+        }
+
+        #heroPosition {
+            position: absolute;
+            top: 38%;
+            left: 20%;
+            -webkit-transform: scaleX(-1);
+            transform: scaleX(-1);
+        }
+
+        #enemyPosition {
+            position: absolute;
+            top: 38%;
+            right: 20%;
         }
     </style>
 
+
     <button id="start-game">START</button>
-    <!-- <button id="character-1">Character-1</button>
-    <button id="character-2">character-2</button>
-    <button id="Try-Again">Try Again</button> -->
+    <div class="characterSelection">
+        <button id="character-1" class="character" value="11111" imageurl="ryu.gif" hidden><img src="ryuSelection.jpg"
+                alt="ryuSelection"></button>
+        <button id="character-2" class="character" value="22222" imageurl="gyouki.gif" hidden><img src="gyoukiSelection.jpg"
+                alt="gioukiSelection"></button>
+    </div>
+    <!-- <button id="Try-Again">Try Again</button> -->
+    <div id="heroPosition"></div>
+    <div id="enemyPosition"></div>
+    <button class="isHeroChosen">Confirm This Hero</button>
 
     <script type="text/javascript">
 
+        var hero;
+        var enemy;
+        var isHeroChosen;
+
+
         $(document).ready(function () {
+            var heroOperatorChosen = false;
+            
             $("#start-game").on("click", function () {
                 $("#start-game").hide();
                 var imageUrl = "CellArena.jpg";
                 $(".body-html").css("background-image", "url(" + imageUrl + ")");
+                $("#character-1").show();
+                $("#character-2").show();
 
             });
+
+            $(".character").on("click", function () {
+
+                if(heroOperatorChosen){
+                    enemy = this.value;
+                    $('#enemyPosition').html(enemy);
+                }else {
+                    hero = this.value;
+                    $('#heroPosition').html(hero);
+                }
+            });
+
+            $(".isHeroChosen").on("click", function () {
+                heroOperatorChosen = true;
+            });
+
+
+            // will comment this out to try to run character selection like calculator selecting a first number (first character)
+            // then selecting operator - when operator selction is true (hero selection is true - create a button for this - choose this hero?)
+            // then you are allowed to select a second number(second character)
+            // $("#character-1").on("click", function () {
+            // on first click it will mean that is the hero character
+            // the first click will trigger hero character to appeaer and...
+            // rest of characters up for selection will appear on the right side of the screen
+            // need to make source of character dependent on what the user chooses and not RYU like below
+            //     $("#character-1").hide();
+            //     $('#heroPosition').html('<img id="theImg" src="ryu.gif"/>');
+            // });
+
+            // $("#character-2").on("click", function () {
+            // need to make source of character dependent on what the user chooses and not gyouki like below
+            //     $("#character-2").hide();
+            //     $('#enemyPosition').html('<img id="theImg" src="gyouki.gif"/>');
+            // });
 
         });
 
