@@ -119,25 +119,43 @@
             border-radius: 15px;
             font-weight: bold;
         }
+        .Attack{
+            position: absolute;
+            bottom: 10%;
+            right: 45%;
+            background-color: gold;
+            color: purple;
+            border-style: solid;
+            border-width: 5px;
+            border-color: orangered;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 30px;
+        }
     </style>
 
 
     <button id="start-game">START</button>
     <div class="characterSelection">
-        <button id="character-1" class="character" value="11111" imageurl="ryu.gif" hidden><img src="ryuSelection.jpg"
-                alt="ryuSelection"></button>
-        <button id="character-2" class="character" value="22222" imageurl="gyouki.gif" hidden><img
-                src="gyoukiSelection.jpg" alt="gioukiSelection"></button>
-        <button id="character-3" class="character" value="33333" hidden><img src="chunLiSelectionScreen.jpg"
-                alt="chunLiSelection"></button>
-        <button id="character-4" class="character" value="44444" hidden><img src="kenSelectionScreen.jpg"
-                alt="chunLiSelection"></button>
+        <input type="image" src="ryuSelection.jpg"  alt="ryuSelection" id="character-1" class="character"  value="ryu.gif" hidden>
+        <input type="image" src="gyoukiSelection.jpg" alt="gioukiSelection" id="character-2" class="character" value="gyouki.gif" hidden>
+        <input type="image" src="alexSelectionScreen.jpg" alt="alexSelection" id="character-3" class="character" value="alex.gif" hidden>
+        <input type="image" src="kenSelectionScreen.jpg" alt="kenSelection" id="character-4" class="character" value="ken.gif" hidden>
+        <!-- <button id="character-1" class="character" value="11111" imageurl=" src=ryu.gif" hidden><img src="ryuSelection.jpg"
+                alt="ryuSelection"></button> -->
+        <!-- <button id="character-2" class="character" value="22222" imageurl="gyouki.gif" hidden><img
+                src="gyoukiSelection.jpg" alt="gioukiSelection"></button> -->
+        <!-- <button id="character-3" class="character" value="33333" hidden><img src="chunLiSelectionScreen.jpg"
+                alt="chunLiSelection"></button> -->
+        <!-- <button id="character-4" class="character" value="44444" hidden><img src="kenSelectionScreen.jpg"
+                alt="chunLiSelection"></button> -->
     </div>
     <!-- <button id="Try-Again">Try Again</button> -->
     <div id="heroPosition"></div>
     <div id="enemyPosition"></div>
     <button class="HeroChosen" hidden>CONFIRM THIS HERO</button>
     <button class="EnemyChosen" hidden>CONFIRM THIS ENEMY</button>
+    <button class="Attack" hidden>ATTACK!</button>
 
     <script type="text/javascript">
 
@@ -155,26 +173,33 @@
                 $("#start-game").hide();
                 var imageUrl = "CellArena.jpg";
                 $(".body-html").css("background-image", "url(" + imageUrl + ")");
-                $("#character-1").show();
-                $("#character-2").show();
-                $("#character-3").show();
-                $("#character-4").show();
+                $(".character").show();
 
             });
 
             $(".character").on("click", function () {
-
                 if (heroOperatorChosen) {
+                    $(".HeroChosen").hide();
                     enemy = this.value;
-                    $('#enemyPosition').html(enemy);
+                    var image = $("<img>");
+                    image.attr("src", enemy);                
+                    $('#enemyPosition').append(image);
                     $(".EnemyChosen").show();
-
                 } else {
                     hero = this.value;
-                    $('#heroPosition').html(hero);
+                    var image = $("<img>");
+                    image.attr("src", hero);
+                    $('#heroPosition').append(image);
                     $(".HeroChosen").show();
                 }
             });
+
+            $(".EnemyChosen").on("click", function(){
+                $(".EnemyChosen").hide();
+                $(".Attack").show();
+
+            });
+
 
             $(".HeroChosen").on("click", function () {
                 heroOperatorChosen = true;
