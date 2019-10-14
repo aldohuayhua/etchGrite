@@ -82,10 +82,35 @@
 
         #heroHealthBar {
             position: absolute;
+            text-align: center;
             top: 30%;
-            left: 25%;
+            left: 18%;
             font-size: 25px;
             font-weight: bold;
+            /* background-color: lightgray; */
+            width: 200px;
+            height: 10px;
+        }
+
+        #heroHealthActualBar {
+            position: absolute;
+            text-align: center;
+            top: 33%;
+            /* left: 10%; */
+            font-size: 25px;
+            font-weight: bold;
+            background-color: greenyellow;
+            width: 200px;
+            height: 20px;
+            /* z-index: 10; */
+        }
+
+        #heroHealthBarText {
+            font-size: 15px;
+            color: hotpink;
+            font-weight: bolder;
+            margin: 0px;
+            padding: 0px;
         }
 
         #heroPosition {
@@ -99,9 +124,32 @@
         #enemyHealthBar {
             position: absolute;
             top: 30%;
-            right: 25%;
+            right: 18%;
             font-size: 25px;
             font-weight: bold;
+            background-color: lightgray;
+            width: 200px;
+        }
+
+        #enemyHealthActualBar {
+            position: absolute;
+            text-align: center;
+            top: 33%;
+            /* left: 10%; */
+            font-size: 25px;
+            font-weight: bold;
+            background-color: greenyellow;
+            width: 200px;
+            height: 20px;
+            /* z-index: 10; */
+        }
+
+        #enemyHealthBarText {
+            font-size: 15px;
+            color: hotpink;
+            font-weight: bolder;
+            margin: 0px;
+            padding: 0px;
         }
 
         #enemyPosition {
@@ -168,20 +216,28 @@
 
     <button id="start-game">START</button>
     <div class="characterSelection">
-        <input type="image" src="ryuSelection2.jpg" alt="15" id="character-1" class="character" value="ryu.gif"
+        <input type="image" src="ryuSelection2.jpg" alt="20" id="character-1" class="character" value="ryu.gif"
             name="150" hidden>
-        <input type="image" src="gyoukiSelection2.jpg" alt="25" id="character-2" class="character" value="gyouki.gif"
+        <input type="image" src="gyoukiSelection2.jpg" alt="40" id="character-2" class="character" value="gyouki.gif"
             name="200" hidden>
-        <input type="image" src="alexSelectionScreen2.jpg" alt="17" id="character-3" class="character" value="alex.gif"
+        <input type="image" src="alexSelectionScreen2.jpg" alt="20" id="character-3" class="character" value="alex.gif"
             name="175" hidden>
         <input type="image" src="kenSelectionScreen2.jpg" alt="10" id="character-4" class="character" value="ken.gif"
             name="125" hidden>
     </div>
     <div class="enemySelection"></div>
     <!-- <button id="Try-Again">Try Again</button> -->
-    <div id="heroHealthBar"></div>
+    <div id="heroHealthBar">
+        <div id="heroHealthActualBar" hidden>
+            <p id="heroHealthBarText"></p>
+        </div>
+    </div>
     <div id="heroPosition"></div>
-    <div id="enemyHealthBar"></div>
+    <div id="enemyHealthBar">
+        <div id="enemyHealthActualBar" hidden>
+            <p id="enemyHealthBarText"></p>
+        </div>
+    </div>
     <div id="enemyPosition"></div>
     <button class="HeroChosen" hidden>CONFIRM THIS HERO</button>
     <button class="EnemyChosen" hidden>CONFIRM THIS ENEMY</button>
@@ -206,11 +262,14 @@
 
             var heroOperatorChosen = false;
             var enemyOperatorChosen = false;
-            var heroLife = [];
-            var enemyLife = [];
-            var heroAttack = [];
-            var enemyAttack = [];
+            var heroLife;
+            var enemyLife;
+            var heroAttack;
+            var enemyAttack;
+            var heroSelectionImage;
+            var enemySelectionImage;
 
+            $("#start-game").fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
 
             $("#start-game").on("click", function () {
                 $("#start-game").hide();
@@ -222,81 +281,129 @@
 
             $(".character").on("click", function () {
                 if (heroOperatorChosen) {
+                    enemySelectionImage = this;
                     enemy = this.value;
                     var image = $("<img>");
                     image.attr("src", enemy);
-                    $('#enemyPosition').append(image);
+                    $('#enemyPosition').html(image);
                     $(".EnemyChosen").show();
                     charHealth = this.name;
-                    enemyLife.push(charHealth);
+                    enemyLife = charHealth;
                     charAttack = this.alt;
-                    enemyAttack.push(charAttack);
-                    // console.log("enemy attack is:" + enemyAttack)
-                    $("#enemyHealthBar").append(enemyLife);
+                    enemyAttack = charAttack;
+                    $("#enemyHealthBarText").text(enemyLife);
+                    $("#enemyHealthActualBar").show();
                     $(".EnemyChosen").fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
                 } else {
+                    heroSelectionImage = this;
                     hero = this.value;
                     var image = $("<img>");
                     image.attr("src", hero);
-                    $('#heroPosition').append(image);
+                    $('#heroPosition').html(image);
                     $(".HeroChosen").show();
                     charHealth = this.name;
-                    heroLife.push(charHealth);
-                    $("#heroHealthBar").append(heroLife);
+                    heroLife = charHealth;
+                    $("#heroHealthBarText").text(heroLife);
+                    $("#heroHealthActualBar").show();
+                    // var heroBar = $("<div>").attr("id", "heroHealthActualBar" );
+                    // $("#heroHealthBar").append(heroBar);
                     charAttack = this.alt;
-                    heroAttack.push(charAttack);
+                    heroAttack = charAttack;
                     $(".HeroChosen").fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
-                    // console.log("hero attack is:" + heroAttack)
+
                 }
             });
 
+            var heroLifeYGlobal = [];
+            var enemyLifeYGlobal;
+
+
             $(".EnemyChosen").on("click", function () {
+
+                var enemyBar = enemyLife;
+                const enemyLifeY = 100 / (enemyBar);
+                enemyLifeYGlobal = enemyLifeY;
+                enemySelectionImage.remove();
                 $(".EnemyChosen").hide();
                 $(".AttackButton").show();
                 $(".character").hide();
+                $("#enemyHealthActualBar").show();
 
             });
 
             $(".HeroChosen").on("click", function () {
-                
+                var heroBar = heroLife;
+                const heroLifeY = 100 / (heroBar);
+                heroLifeYGlobal.push(heroLifeY);
+                heroSelectionImage.remove();
                 heroOperatorChosen = true;
                 $(".character").hide();
                 $(".YouHaveSelected").show();
+                $(".YouHaveSelected").fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
             });
 
+
+
             $(".YouHaveSelected").on("click", function () {
+
                 $(".HeroChosen").hide();
                 $(".YouHaveSelected").hide();
                 $(".character").show();
                 characterSelectionScreen.animate({ left: "+=650px" }, "normal");
-
             });
 
-            $(".AttackButton").on("click", function () {
-                enemyLife -= heroAttack;
-                $("#enemyHealthBar").text(enemyLife);
+
+            function attackingHero() {
+                var heroBar = heroLife;
+                var heroLifeWidth = heroBar * heroLifeYGlobal;
+                var enemyAttackWidth = enemyAttack * heroLifeYGlobal;
+                var heroBar = heroLifeWidth - enemyAttackWidth;
                 heroLife -= enemyAttack;
-                $("#heroHealthBar").text(heroLife);
+                $("#heroHealthActualBar").css("width", heroBar + "%");
+                $("#heroHealthBarText").text(heroLife);
+
+            }
+            function attackingEnemy() {
+                enemyBar = enemyLife;
+                enemyLifeWidth = enemyBar * enemyLifeYGlobal;
+                heroAttackWidth = heroAttack++ * enemyLifeYGlobal;
+                console.log(heroAttackWidth);
+                enemyBar = enemyLifeWidth - heroAttackWidth;
+                enemyLife -= heroAttack++;
+                $("#enemyHealthActualBar").css("width", enemyBar + "%");
+                $("#enemyHealthBarText").html(enemyLife);
+
+            }
+
+            $(".AttackButton").on("click", function () {
+                attackingHero();
+                attackingEnemy();
                 if (heroLife <= 0) {
                     alert("YOU HAVE LOST")
                 } else if (enemyLife <= 0) {
                     alert("Congrats! Now choose your next oponent")
-                    $('#enemyPosition').hide();
+                    $(".AttackButton").hide();
                     $(".character").show();
-                    // $(".character").on("click", function () {
-                    //     $('#enemyPosition').show();
-                    //     enemy = this.value;
-                    //     var image = $("<img>");
-                    //     image.attr("src", enemy);
-                    //     $('#enemyPosition').append(image);
-                    //     $(".EnemyChosen").show();
-                    //     charHealth = this.name;
-                    //     enemyLife.push(charHealth);
-                    //     charAttack = this.alt;
-                    //     enemyAttack.push(charAttack);
-                    //     // console.log("enemy attack is:" + enemyAttack)
-                    //     $("#enemyHealthBar").append(enemyLife);
-                    // });
+                    $(".character").on("click", function () {
+                        $('#enemyPosition').show();
+                        enemy = this.value;
+                        var image = $("<img>");
+                        image.attr("src", enemy);
+                        $('#enemyPosition').html(image);
+                        $(".EnemyChosen").show();
+                        charHealth = this.name;
+                        enemyLife = charHealth;
+                        charAttack = this.alt;
+                        enemyAttack = charAttack;
+                        enemyBar = enemyLife;
+                        enemyLifeWidth = enemyBar * enemyLifeYGlobal;
+                        heroAttackWidth = heroAttack++ * enemyLifeYGlobal;
+                        enemyBar = enemyLifeWidth - heroAttackWidth;
+                        $("#enemyHealthActualBar").css("width", enemyBar + "%");
+                        $("#enemyHealthBarText").text(enemyLife);
+                        $("#enemyHealthActualBar").show();
+                        $(".EnemyChosen").fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
+                    });
 
                 }
             });
